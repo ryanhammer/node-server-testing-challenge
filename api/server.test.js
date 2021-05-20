@@ -25,7 +25,7 @@ const testStudents = [
 //   { name: 'Luna Lovegood', house: 'Ravenclaw' }
 // ];
 
-describe('server', () => {
+describe('server.js', () => {
 
   describe('[GET] /api/students', () => {
     beforeEach( async () => {
@@ -38,7 +38,6 @@ describe('server', () => {
     it('returns a list of students', async () => {
       const res = await request(server).get('/api/students');
       expect(res.body).toMatchObject(testStudents);
-      // const res = reqest(server).post('/students').send({ name: 'pippin'});
     });
   });
 
@@ -56,6 +55,24 @@ describe('server', () => {
       res = await request(server).get('/api/students/2');
       expect(res.body).toMatchObject(testStudents[1]);
     });
+  });
+
+  describe('[POST] /api/students', () => {
+    
+    it('creates a student in the database', async () => {
+      await request(server).post('/api/students').send(testStudents[0]);
+      await request(server).post('/api/students').send(testStudents[1]);
+      const students = await db('students');
+      expect(students[0]).toMatchObject(testStudents[0]);
+      expect(students[1]).toMatchObject(testStudents[1]);
+    });
+    it('responds with the newly created student', async () => {
+      const res1 = await request(server).post('/api/students').send(testStudents[0]);
+      const res2 = await request(server).post('/api/students').send(testStudents[1]);
+      expect(res1.body).toMatchObject({ id: 1, ...testStudents[0] });
+      expect(res2.body).toMatchObject({ id: 2, ...testStudents[1] });
+    });
+    
   });
 
 });

@@ -20,8 +20,12 @@ router.get("/:id", checkStudentId, (req, res) => {
   res.status(200).json(req.student);
 });
 
-router.post("/", (req, res) => {
-  res.end();
+router.post('/', (req, res, next) => {
+    Students.insert(req.body)
+      .then(student => {
+        res.status(201).json(student);
+      })
+      .catch(next);
 });
 
 router.delete("/:id", (req, res) => {
