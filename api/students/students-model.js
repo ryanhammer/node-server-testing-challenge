@@ -10,7 +10,8 @@ const getById = async (id) => {
 }
 
 const insert = async (student) => {
-  return null;
+  const [id] = await db('students').insert(student, ['id', 'name', 'house']);
+  return getById(id);
 }
 
 const update = async (id, student) => {

@@ -71,4 +71,30 @@ describe('Students', () => {
   
   });
 
+  describe('insert()', () => {
+    
+    it('inserts student', async () => {
+      await Students.insert(testStudents[0]);
+      const students = await db('students');
+      expect(students).toHaveLength(1);
+      expect(students[0]).toMatchObject(testStudents[0]);
+    });
+
+    it('resolves to the inserted student', async () => {
+      let result = await Students.insert(testStudents[0]);
+      expect(result).toMatchObject({
+        id: 1,
+        name: 'harry p',
+        house: 'Gryffindor'
+      });
+      result = await Students.insert(testStudents[1]);
+      expect(result).toMatchObject({
+        id: 2,
+        name: 'luna l',
+        house: 'Ravenclaw'
+      });
+    });
+  
+  });
+
 });
