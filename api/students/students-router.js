@@ -4,15 +4,14 @@ const Students = require('./students-model');
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.end();
-  // Students.getAll()
-  //   .then(students => {
-  //     res.status(200).json(students);
-  //   })
-  //   .catch(error => {
-  //     res.status(500).json(error);
-  //   });
+router.get("/", (req, res, next) => {
+  Students.getAll()
+    .then(students => {
+      res.status(200).json(students);
+    })
+    .catch(error => {
+      next(error);
+    });
 });
 
 router.get("/:id", (req, res) => {
