@@ -4,7 +4,7 @@ const Students = require('./students-model');
 
 const router = express.Router();
 
-router.get("/students", (req, res) => {
+router.get("/", (req, res) => {
   res.end();
   // Students.getAll()
   //   .then(students => {
@@ -15,19 +15,19 @@ router.get("/students", (req, res) => {
   //   });
 });
 
-router.get("/students/id", (req, res) => {
+router.get("/:id", (req, res) => {
   res.end();
 });
 
-router.post("/students", (req, res) => {
+router.post("/", (req, res) => {
   res.end();
 });
 
-router.delete("/students/:id", (req, res) => {
+router.delete("/:id", (req, res) => {
   res.end();
 });
 
-router.put("/students/:id", (req, res) => {
+router.put("/:id", (req, res) => {
   res.end();
 });
 
