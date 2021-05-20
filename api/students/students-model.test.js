@@ -52,4 +52,23 @@ describe('Students', () => {
 
   });
 
+  describe('getById()', () => {
+    
+    it('resolves to a single student object', async () => {
+      let student = await Students.getById(1);
+      expect(student).not.toBeDefined;
+      await db('students').insert(testStudents[0]);
+      student = await Students.getById(1);
+      expect(student).toMatchObject(testStudents[0]);
+    });
+    it('resolves to the correct student object', async () => {
+      await db('students').insert(testStudents);
+      let student = await Students.getById(1);
+      expect(student).toMatchObject(testStudents[0]);
+      student = await Students.getById(2);
+      expect(student).toMatchObject(testStudents[1]);
+    });
+  
+  });
+
 });

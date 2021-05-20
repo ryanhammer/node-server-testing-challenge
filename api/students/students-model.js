@@ -4,8 +4,9 @@ const getAll = () => {
   return db('students');
 }
 
-const getById = (id) => {
-  return null;
+const getById = async (id) => {
+  const student = await db('students').where({ id }).first();
+  return student;
 }
 
 const insert = async (student) => {
