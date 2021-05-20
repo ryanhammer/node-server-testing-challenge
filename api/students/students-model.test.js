@@ -57,7 +57,7 @@ describe('Students', () => {
 
   });
 
-  describe('getById()', () => {
+  describe('getById(id)', () => {
     
     it('resolves to a single student object', async () => {
       let student = await Students.getById(1);
@@ -76,7 +76,7 @@ describe('Students', () => {
   
   });
 
-  describe('insert()', () => {
+  describe('insert(student)', () => {
     
     it('inserts student', async () => {
       await Students.insert(testStudents[0]);
@@ -102,7 +102,7 @@ describe('Students', () => {
   
   });
 
-  describe('update()', () => {
+  describe('update(id, student)', () => {
     
     it('updates student', async () => {
       await db('students').insert(testStudents);
@@ -126,6 +126,30 @@ describe('Students', () => {
         id: 2,
         name: 'Luna Lovegood',
         house: 'Ravenclaw'
+      });
+    });
+  
+  });
+
+  describe('remove(id)', () => {
+    
+    it('removes a student object based on an id', async () => {
+      await db('students').insert(testStudents);
+      let students = await db('students');
+      expect(students).toHaveLength(2);
+      expect(students).toMatchObject(testStudents);
+      await Students.remove(1);
+      students = await db('students');
+      expect(students).toHaveLength(1);
+      expect(students).not.toMatchObject(testStudents[0]);
+    });
+    it('resolves to the removed student object', async () => {
+      await db('students').insert(testStudents);
+      const result = await Students.remove(1);
+      expect(result).toMatchObject({
+        id: 1,
+        name: 'harry p',
+        house: 'Gryffindor'
       });
     });
   

@@ -19,8 +19,10 @@ const update = async (id, student) => {
   return getById(id);
 }
 
-const remove = (id) => {
-  return null;
+const remove = async (id) => {
+  const deletedStudent = await getById(id);
+  await db('students').where('id', id).del();
+  return deletedStudent;
 }
 
 module.exports = {
