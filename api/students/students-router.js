@@ -4,6 +4,8 @@ const Students = require('./students-model');
 
 const router = express.Router();
 
+const { checkStudentId } = require('./students-middleware');
+
 router.get("/", (req, res, next) => {
   Students.getAll()
     .then(students => {
@@ -14,8 +16,8 @@ router.get("/", (req, res, next) => {
     });
 });
 
-router.get("/:id", (req, res) => {
-  res.end();
+router.get("/:id", checkStudentId, (req, res) => {
+  res.status(200).json(req.student);
 });
 
 router.post("/", (req, res) => {

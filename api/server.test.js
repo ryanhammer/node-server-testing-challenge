@@ -20,10 +20,10 @@ const testStudents = [
   { name: 'luna l', house: 'Ravenclaw' }
 ];
 
-const updatedStudents = [ 
-  { name: 'Harry Potter', house: 'Gryffindor' },
-  { name: 'Luna Lovegood', house: 'Ravenclaw' }
-];
+// const updatedStudents = [ 
+//   { name: 'Harry Potter', house: 'Gryffindor' },
+//   { name: 'Luna Lovegood', house: 'Ravenclaw' }
+// ];
 
 describe('server', () => {
 
@@ -39,6 +39,22 @@ describe('server', () => {
       const res = await request(server).get('/api/students');
       expect(res.body).toMatchObject(testStudents);
       // const res = reqest(server).post('/students').send({ name: 'pippin'});
+    });
+  });
+
+  describe('[GET] /api/students/:id', () => {
+    beforeEach( async () => {
+      await db('students').insert(testStudents);
+    });
+    it('responds with a 200 OK', async () => {
+      const res = await request(server).get('/api/students/1');
+      expect(res.status).toBe(200);
+    });
+    it('gets the correct student', async () => {
+      let res = await request(server).get('/api/students/1');
+      expect(res.body).toMatchObject(testStudents[0]);
+      res = await request(server).get('/api/students/2');
+      expect(res.body).toMatchObject(testStudents[1]);
     });
   });
 
