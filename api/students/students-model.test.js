@@ -19,6 +19,11 @@ const testStudents = [
   { name: 'luna l', house: 'Ravenclaw' }
 ];
 
+const updatedStudents = [ 
+  { name: 'Harry Potter', house: 'Gryffindor' },
+  { name: 'Luna Lovegood', house: 'Ravenclaw' }
+];
+
 describe('Students', () => {
 
   describe('sanity', () => {
@@ -91,6 +96,35 @@ describe('Students', () => {
       expect(result).toMatchObject({
         id: 2,
         name: 'luna l',
+        house: 'Ravenclaw'
+      });
+    });
+  
+  });
+
+  describe('update()', () => {
+    
+    it('updates student', async () => {
+      await db('students').insert(testStudents);
+      let student = await db('students').where('id', 1).first();
+      expect(student).toMatchObject(testStudents[0]);
+      await Students.update(1, updatedStudents[0]);
+      student = await db('students').where('id', 1).first();
+      expect(student).toMatchObject(updatedStudents[0]);
+    });
+
+    it('resolves to the updated student', async () => {
+      await db('students').insert(testStudents);
+      let result = await Students.update(1, updatedStudents[0]);
+      expect(result).toMatchObject({
+        id: 1,
+        name: 'Harry Potter',
+        house: 'Gryffindor'
+      });
+      result = await Students.update(2, updatedStudents[1]);
+      expect(result).toMatchObject({
+        id: 2,
+        name: 'Luna Lovegood',
         house: 'Ravenclaw'
       });
     });
