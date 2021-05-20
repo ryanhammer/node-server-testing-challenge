@@ -36,8 +36,12 @@ router.put("/:id", checkStudentId, (req, res, next) => {
     .catch(next);
 });
 
-router.delete("/:id", (req, res) => {
-  res.end();
+router.delete("/:id", checkStudentId, (req, res, next) => {
+  Students.remove(req.params.id)
+    .then(student => {
+      res.status(200).json(student);
+    })
+    .catch(next);
 });
 
 router.use( (err, req, res ) => {

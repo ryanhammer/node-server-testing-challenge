@@ -95,4 +95,22 @@ describe('server.js', () => {
     
   });
 
+  describe('[DELETE] /api/students/:id', () => {
+    beforeEach( async () => {
+      await db('students').insert(testStudents);
+    });
+    it('deletes a student from the database', async () => {
+      let students = await db('students');
+      expect(students).toHaveLength(2);
+      await request(server).delete('/api/students/1');
+      students = await db('students');
+      expect(students).toHaveLength(1);
+    });
+    it('responds with the deleted student', async () => {
+      let students = await db('students');
+      let res = await request(server).delete('/api/students/1');
+      expect(res.body).toMatchObject(students[0]);
+    });
+  });
+
 });
