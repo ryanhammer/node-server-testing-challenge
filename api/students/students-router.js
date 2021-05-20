@@ -21,18 +21,22 @@ router.get("/:id", checkStudentId, (req, res) => {
 });
 
 router.post('/', (req, res, next) => {
-    Students.insert(req.body)
-      .then(student => {
-        res.status(201).json(student);
-      })
-      .catch(next);
+  Students.insert(req.body)
+    .then(student => {
+      res.status(201).json(student);
+    })
+    .catch(next);
+});
+
+router.put("/:id", checkStudentId, (req, res, next) => {
+  Students.update(req.params.id, req.body)
+    .then(student => {
+      res.status(200).json(student);
+    })
+    .catch(next);
 });
 
 router.delete("/:id", (req, res) => {
-  res.end();
-});
-
-router.put("/:id", (req, res) => {
   res.end();
 });
 

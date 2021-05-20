@@ -16,7 +16,8 @@ const insert = async (student) => {
 
 const update = async (id, student) => {
   await db('students').where('id', id).update(student);
-  return getById(id);
+  const updatedStudent = await getById(id);
+  return updatedStudent;
 }
 
 const remove = async (id) => {
